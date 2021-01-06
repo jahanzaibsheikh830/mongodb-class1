@@ -15,7 +15,7 @@ function signup(){
         if (Http.readyState === 4) 
             var res = JSON.parse(Http.responseText);
             if (res.status === 200) {
-                alert(Http.responseText)
+                alert(res.message)
                 location.href = "./login.html"
             }
             else{
