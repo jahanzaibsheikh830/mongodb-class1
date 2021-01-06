@@ -60,23 +60,52 @@ app.post('/signup', (req, res, next) => {
         return;
     }
 
-    var newUser = new userModel({
-        "name": req.body.name,
-        "email": req.body.email,
-        "password": req.body.password,
-        "phone": req.body.phone,
-        "gender": req.body.gender,
-    })
-    newUser.save((err, data) => {
-        if (!err) {
-            res.send("user created")
-        } else {
-            console.log(err);
-            res.status(500).send("user create error, " + err)
+    userModel.findOne({email: req.body.email}, function(err,data){
+        if (err) {
+            console.log(err)        
         }
-    });
+        else if(!data){
+            var newUser = new userModel({
+                "name": req.body.name,
+                "email": req.body.email,
+                "password": req.body.password,
+                "phone": req.body.phone,
+                "gender": req.body.gender,
+            })
+            newUser.save((err, data) => {
+                if (!err) {
+                    res.send({
+                        message : "User created",
+                        status: 200
+                    })
+                } else {
+                    console.log(err);
+                    res.status(500).send("user create error, " + err)
+                }
+            });
+        }
+        else{
+            res.send('Already registered')
+            console.log(data)        
+        }
+    })
+    
 })
+app.post('/login', (req, res,next) => {
+    userModel.findOne({ email: req.body.lemail, password: req.body.lpassword }, function (err, data) {
+        if (err) {
+            console.log(err)
+        }
+        else if(!data) {
+            res.send("user not found");
+            console.log(data)
+        }
+        else{
+            res.send("Login")
+        }
+    })
 
+});  
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log("server is running on: ", PORT);
