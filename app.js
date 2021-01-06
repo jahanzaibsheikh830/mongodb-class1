@@ -1,6 +1,6 @@
 function signup(){
     const Http = new XMLHttpRequest();
-    var url = "http://localhost:3000/signup"
+    var url = "https://mongodb-signup.herokuapp.com/signup"
     Http.open("POST", url);
     Http.setRequestHeader("Content-Type", "application/json");
     Http.send(JSON.stringify({
@@ -28,7 +28,7 @@ function signup(){
 
 function login(){
     const Http = new XMLHttpRequest();
-    var url = "http://localhost:3000/login"
+    var url = "https://mongodb-signup.herokuapp.com/login"
     Http.open("POST", url);
     Http.setRequestHeader("Content-Type", "application/json");
     Http.send(JSON.stringify({
